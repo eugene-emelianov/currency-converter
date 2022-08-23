@@ -17,13 +17,33 @@ namespace CurrencyyConverter.Infrastructure.Services
 
             using var response = await httpClient.GetAsync(url);
 
+            var ratesDto = await GetFxRatesResponseDto(response);
+
+            return ratesDto?.Success == true ? Convert.ToDouble(ratesDto.Rates[toCurrency]) : 0;
+        }
+
+        public async Task<double> GetHistoricalRateAsync(string baseCurrency, string toCurrency, DateTime date)
+        {
+            var httpClient = InitializeHttpClient();
+
+            var url = $"fixer/{date.Date:yyy-MM-dd}?symbols={toCurrency}&base={baseCurrency}";
+
+            using var response = await httpClient.GetAsync(url);
+
+            var ratesDto = await GetFxRatesResponseDto(response);
+
+            return ratesDto?.Success == true ? Convert.ToDouble(ratesDto.Rates[toCurrency]) : 0;
+        }
+
+        private async Task<FixerFxRatesResponseDto?> GetFxRatesResponseDto(HttpResponseMessage response)
+        {
             response.EnsureSuccessStatusCode();
 
             var content = await response.Content.ReadAsStreamAsync();
 
-            var ratesDto = await JsonSerializer.DeserializeAsync<FixerLatestRatesResponseDto>(content, new JsonSerializerOptions(JsonSerializerDefaults.Web));
+            var ratesDto = await JsonSerializer.DeserializeAsync<FixerFxRatesResponseDto>(content, new JsonSerializerOptions(JsonSerializerDefaults.Web));
 
-            return ratesDto?.Success == true ? Convert.ToDouble(ratesDto.Rates[toCurrency]) : 0;
+            return ratesDto;
         }
 
         private HttpClient InitializeHttpClient()
