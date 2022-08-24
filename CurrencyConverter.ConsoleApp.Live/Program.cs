@@ -47,7 +47,7 @@ namespace CurrencyConverter.ConsoleApp.Live
 
         private static ICurrencyService InitCurrencyService()
         {
-            return new CurrencyService(new FixerApiService());
+            return new CurrencyService(new FixerApiService(), null);
         }
     }
 }

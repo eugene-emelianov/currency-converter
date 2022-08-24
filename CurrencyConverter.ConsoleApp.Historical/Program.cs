@@ -53,7 +53,7 @@ namespace CurrencyConverter.ConsoleApp.Historical
 
         private static ICurrencyService InitCurrencyService()
         {
-            return new CurrencyService(new FixerApiService());
+            return new CurrencyService(new FixerApiService(), null);
         }
     }
 }

@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CurrencyyConverter.Common\CurrencyyConverter.Infrastructure.csproj" />
+    <ProjectReference Include="..\CurrencyyConverter.Common\CurrencyConverter.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
